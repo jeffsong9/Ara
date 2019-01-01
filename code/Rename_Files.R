@@ -7,9 +7,9 @@ file_names<-list.files(pattern="*\\.txt")
 gsub("^CH", "RICH", file_names)->new_file_names
 gsub("^GG", "RDGG", new_file_names)->new_file_names
 gsub("^GN", "RDGN", new_file_names)->new_file_names
-gsub("^GB", "RDGN", new_file_names)->new_file_names
-gsub("^CN", "RDGN", new_file_names)->new_file_names
-gsub("^CB", "RDGN", new_file_names)->new_file_names
+gsub("^GB", "RDGB", new_file_names)->new_file_names
+gsub("^CN", "RDCN", new_file_names)->new_file_names
+gsub("^CB", "RDCB", new_file_names)->new_file_names
 # e.g. gsub("^CH", "RI_CH", "CHCH_1.text")
 # e.g. gsub("CH", "RI_CH", "CHCH_1.text")
 
