@@ -13,7 +13,7 @@ gsub("^CB", "RDCB", new_file_names)->new_file_names
 # e.g. gsub("^CH", "RI_CH", "CHCH_1.text")
 # e.g. gsub("CH", "RI_CH", "CHCH_1.text")
 
-# sapply(file_names, function(x){ifelse(grep("^CH", x), gsub("^CH", "RICH", x), paste0("RD", x))})->new_file_names
+# do.call("rbind", lapply(file_names, function(x){ifelse(grepl("^CH", x), paste0("RI", x), paste0("RD", x))}))->new_file_names
 
 
 # Rename files and loop them using the 'for' loop
