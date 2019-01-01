@@ -10,9 +10,6 @@ do.call("rbind", lapply(file_names, function(x){ifelse(grepl("^CH", x), paste0("
 # e.g. gsub("^CH", "RI_CH", "CHCH_1.text")
 # e.g. gsub("CH", "RI_CH", "CHCH_1.text")
 
-
-
-
 # Rename files and loop them using the 'for' loop
 for(i in 1:length(file_names)){
 file.rename(file_names[i], new_file_names[i])
