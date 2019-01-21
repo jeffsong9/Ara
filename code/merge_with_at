@@ -1,0 +1,7 @@
+setwd("C:/Users/user/Desktop/results_ROA/results")
+ROA1<-read.csv("ROA1.csv")
+ROA1$mzmed<-paste0(ROA1$mzmed, "@", ROA1$rtmed)
+ROA1<-ROA1[, -2]
+colnames(ROA1)[1]<-"mz@rt"
+View(head(ROA1))
+write.csv2(ROA1, "C:/Users/user/Desktop/results_ROA/results/ROA2", row.names=F)
