@@ -1,0 +1,237 @@
+getwd()
+setwd("C:/Users/user/Desktop/results_RAW/results")
+
+
+read.csv("20181018PCA.csv")->20181018
+# comment는 ctrl+shift+c
+test<-read.csv("data/test.csv")
+PCA=read.csv("20181018PCA.csv")
+PCA
+EGO<-read.csv("EGO.csv", header=F)
+
+# install.packages("xlsx")
+require(xlsx)
+write.csv(test, "output/output1.csv", row.names = F)
+
+library(dplyr)
+library(ggplot2)
+library(ggrepel)
+EGO<-read.csv("EGO.csv", stringsAsFactors = F)
+ggplot(data=ara2, aes(x=PC1, y=PC2, label=Contribution))+
+  geom_point(color = "blue")+
+  geom_text_repel(size=2)
+  #xlim(min=-15, max=25)+
+  #ylim(min=-20, max=20)+
+PCA<-read.csv("20181018PCA.csv", stringsAsFactors = F)
+ggplot(data=PCA, aes(x=PC1, y=PC2, label=contribution))+
+  geom_point(color = "blue")+
+  geom_text_repel(size=2)
+#xlim(min=-15, max=25)+
+#ylim(min=-20, max=20)+
+
+
+
+EGO<-read.csv("EGO.csv", stringsAsFactors = F)
+ggplot(data=EGO, aes(x=PC1, y=PC2, label=Contribution))+
+  geom_point(color = "blue")+
+  geom_text_repel(size=2)
+#xlim(min=-2, max=5)+
+#ylim(min=-1, max=5)+
+
+
+
+20181122_MS-DIAL EXPORTED FILE MERGING
+setwd("C:/Users/user/Desktop/AAA/20181211")
+library(dplyr)
+
+files=list.files(pattern = "*.txt")
+files[1] %>%
+  read.delim()%>%
+  select(RT.min., Integrated.area)-> full_set
+for (i in 2:length(files)){
+  files[i] %>%
+    read.delim()%>%
+    select(RT.min., Integrated.area)->temp_subset
+  full_join(full_set, temp_subset, by="RT.min.")->full_set
+}
+
+full_set %>%
+  arrange(RT.min.)->full_set
+colnames(full_set)=c("RT.min.", gsub("\\.txt", "", files))
+
+write.csv(full_set,"C:/Users/user/Desktop/AAA/20181211/full_set.csv",row.names=F)
+
+20181210_volcano plot
+setwd("C:/Users/user/Desktop/AAA")
+install.packages('GEOquery')
+library(GEOquery)
+gse <- getGEO("GSE18842",GSEMatrix=TRUE)
+gse <- gse[[1]]
+eset <- exprs(gse)
+
+
+
+#전체 이름 바꾸기
+setwd("C:/Users/user/Desktop/참깨 MS-DIAL및통계/AIA/NEW.AIA")
+
+#List all files with .text extension in the current directory
+file_names<-list.files(pattern="*\\.CDF")
+
+# Create file names. E.g. Files that start with 'CB' into 'RI_CB'
+#gsub 특정한 패턴을 다른 패턴으로 바꿈
+#웻지를 넣어서 앞에 CH있는 것만 바꾸게 함 gsub("^CH", "RI_CH", "CHCH_1.text")
+#웻지가 없으면 모든 CH를 다 바꿈 gsub("CH", "RI_CH", "CHCH_1.text")
+
+gsub("^CH", "RICH", file_names)->new_file_names
+gsub("^GG", "RDGG", new_file_names)->new_file_names
+gsub("^GN", "RDGN", new_file_names)->new_file_names
+gsub("^GB", "RDGB", new_file_names)->new_file_names
+gsub("^GW", "RDGW", new_file_names)->new_file_names
+gsub("^CN", "RDCN", new_file_names)->new_file_names
+gsub("^CB", "RDCB", new_file_names)->new_file_names
+gsub("^JN", "RDJN", new_file_names)->new_file_names
+gsub("^JB", "RDJB", new_file_names)->new_file_names
+gsub("^JJ", "RDJJ", new_file_names)->new_file_names
+gsub("^O", "RIO", new_file_names)->new_file_names
+gsub("^CN", "RICN", new_file_names)->new_file_names
+gsub("^ON", "RION", new_file_names)->new_file_names
+
+
+# Rename files and loop them using the 'for' loop
+for(i in 1:length(file_names)){
+  file.rename(file_names[i], new_file_names[i])
+  }
+
+pset <- phenoData(gse)
+
+RAW1<-read.csv("RAW1.csv")
+x1 <- paste("\"", hello,"\"", sep="")
+paste0(df$mzmed, '@', df$rtmed)
+paste("a","b",sep="")
+df[, c(1)]
+
+
+df<-read.csv("XCMS.csv")
+df$mzmed<-paste0(df$mzmed, "@", df$rtmed)
+#df$mzmed<-paste(df$mzmed, "@", df$rtmed, sep="")랑 같
+df<-df[, -2]
+colnames(df)[1]<-"mz@rt"
+View(head(df))
+write.csv2(df, "C:/Users/user/Desktop/results/mzzzrt", row.names=F)
+
+#mz@rt로 합치기
+setwd("C:/Users/user/Desktop/res_ROA/results")
+ROA5<-read.csv("ROA5.csv")
+ROA5$mzmed<-paste0(ROA5$mzmed, "@", ROA5$rtmed)
+#ROA5$mzmed<-paste(ROA5$mzmed, "@", ROA5$rtmed, sep="")랑 같
+ROA5<-ROA5[, -2]
+colnames(ROA5)[1]<-"mz@rt"
+View(head(ROA5))
+write.csv(ROA5, "C:/Users/user/Desktop/res_ROA/results/ROA6.csv", row.names=F)
+
+#support vector machine & cross validation
+library(dplyr)
+library(e1071)
+options(digits=10)
+ROA<-read.csv("ROAvip1out5.csv", header=F, stringsAsFactors = F)
+colnames(ROA)<-as.character(unlist(ROA[1,]))
+ROA<-ROA[-1,]
+data.frame(ROA[,1], lapply(ROA[,-1], as.numeric) %>%
+             do.call("cbind", .)
+)-> ROA2
+colnames(ROA2)<-colnames(ROA)
+ROA2$`mz@rt`<-as.character(ROA2$`mz@rt`)
+colnames(ROA2)<-colnames(ROA)
+rownames(ROA2)<-ROA2[,1]
+ROA2<-ROA2[,-1]
+ROA2<-scale(ROA2) %>% as.data.frame()
+ROA2$y<-NA
+ROA2$y<-ifelse(grepl("^RI", rownames(ROA2)), 1, 0)
+ROA2$y<-as.factor(ROA2$y)
+ROA_predicted<-svm(y~., data=ROA2[,-1])
+ROA_compare<-cbind.data.frame(True=ROA2$y, fitted=ROA_predicted$fitted)
+cbind.data.frame(Bingo=sum(ROA_compare$fitted==ROA_compare$True)/nrow(ROA_compare), 
+                 False_cat0=sum(ROA_compare$True==0 & ROA_compare$fitted==1)/nrow(ROA_compare), 
+                 False_cat1=sum(ROA_compare$True==1 & ROA_compare$fitted==0)/nrow(ROA_compare))
+
+
+
+#※hierarchical clustering
+# Load data
+setwd("C:/Users/user/Desktop")
+library(dplyr)
+options(digits=10)
+XCMSR<-read.csv("XCMS1_.csv", header=F, stringsAsFactors = F)
+colnames(XCMSR)<-as.character(unlist(XCMSR[1,]))
+XCMSR<-XCMSR[-1,]
+data.frame(XCMSR[,1], lapply(XCMSR[,-1], as.numeric) %>%
+             do.call("cbind", .)
+)-> XCMSR2
+colnames(XCMSR2)<-colnames(XCMSR)
+XCMSR2$`mz@rt`<-as.character(XCMSR2$`mz@rt`)
+rownames(XCMSR2)<-XCMSR2[,1]
+XCMSR2<-XCMSR2[,-1]
+XCMSR<-XCMSR2
+
+XCMSR<-scale(XCMSR)
+
+View(XCMSR)
+
+
+#global environmet 다 지움
+rm(list=ls())
+#원하는 것만 지움
+rm()
+
+# Remove any missing value (i.e, NA values for not available)
+XCMSR <- na.omit(XCMSR)
+
+# Scale variables
+XCMSR <- scale(XCMSR2)
+
+# View the firt 3 rows
+head(XCMSR, n = 3)
+
+colnames(XCMSR)
+# Install factoextra
+install.packages("factoextra")
+
+# Install cluster package
+install.packages("cluster")
+
+#Loading required packages
+library("cluster")
+library("factoextra")
+
+#clarifying distance measures
+res.dist <- get_dist(XCMSR, stand = TRUE, method = "pearson")
+
+# 1. Loading and preparing data
+
+XCMSR <- scale(XCMSR)
+
+# 2. Compute dissimilarity matrix
+d <- dist(XCMSR, method = "euclidean")
+
+# Hierarchical clustering using Ward's method
+res.hc <- hclust(d, method = "ward.D2" )
+
+# Cut tree into 4 groups
+grp <- cutree(res.hc, k = 2)
+
+# Visualize
+plot(res.hc, cex = 0.6) # plot tree
+rect.hclust(res.hc, k = 2, border = 2:5) # add rectangle
+
+fviz_dist(res.dist, 
+          gradient = list(low = "#00AFBB", mid = "white", high = "#FC4E07"))
+
+#Elegant visualization using factoextra functions: factoextra::hcut(), factoextra::fviz_dend()
+library("factoextra")
+# Compute hierarchical clustering and cut into 4 clusters
+res <- hcut(XCMSR2, k = 2, stand = TRUE)
+
+# Visualize
+fviz_dend(res, rect = TRUE, cex = 0.5,
+          k_colors = c("#FC4E07","#00AFBB","#2E9FDF", "#E7B800"))
+
