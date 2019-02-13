@@ -40,7 +40,6 @@ ggplot(data=EGO, aes(x=PC1, y=PC2, label=Contribution))+
 
 
 
-20181122_MS-DIAL EXPORTED FILE MERGING
 setwd("C:/Users/user/Desktop/AAA/20181211")
 library(dplyr)
 
